@@ -6,6 +6,7 @@ pygame.init()
 game_icon = pygame.image.load(r'tic_tac_toe_icon.png')
 x_image = pygame.image.load(r'tic_tac_toe_x.png')
 circle_image = pygame.image.load(r'tic_tac_toe_circle.png')
+board_lines_color = pygame.Color('black')
 
 pygame.display.set_caption('tic-tac-toe-ai')
 pygame.display.set_icon(game_icon)
@@ -53,8 +54,8 @@ grid_quadrants = {
 }
 
 while True:
-    draw_board(pygame, display_surface, display_surface_width, display_surface_height)
-    handle_player_action(pygame, display_surface, grid_quadrants)
+    draw_board(pygame, display_surface, display_surface_width, display_surface_height, board_lines_color)
+    handle_player_action(pygame, display_surface, board_lines_color, grid_quadrants)
     
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
