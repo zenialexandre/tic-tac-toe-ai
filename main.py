@@ -4,8 +4,6 @@ from board_helper import draw_board, handle_player_action
 pygame.init()
 
 game_icon = pygame.image.load(r'tic_tac_toe_icon.png')
-x_image = pygame.image.load(r'tic_tac_toe_x.png')
-circle_image = pygame.image.load(r'tic_tac_toe_circle.png')
 board_lines_color = pygame.Color('black')
 
 pygame.display.set_caption('tic-tac-toe-ai')
