@@ -1,5 +1,5 @@
 import pygame
-from board_helper import draw_board, handle_player_action
+import board_helper
 
 pygame.init()
 
@@ -52,9 +52,9 @@ grid_quadrants = {
 }
 
 while True:
-    draw_board(pygame, display_surface, display_surface_width, display_surface_height, board_lines_color)
-    handle_player_action(pygame, display_surface, board_lines_color, grid_quadrants)
-    
+    board_helper.draw_board(pygame, display_surface, display_surface_width, display_surface_height, board_lines_color)
+    board_helper.handle_player_action(pygame, display_surface, grid_quadrants, board_lines_color)
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()

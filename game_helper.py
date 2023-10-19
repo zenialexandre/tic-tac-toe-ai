@@ -31,7 +31,9 @@ def fill_board_matrix(drawed_symbols, quadrant):
 
 def search_for_winner():
     if (check_winning_scenarios('x') == True or check_winning_scenarios('o') == True):
-        print('winner')
+        print('win')
+    elif (numpy.count_nonzero(board_matrix == '-') == 0):
+        print('draw')
 
 def check_winning_scenarios(symbol):
     return check_row_winning_scenarios(symbol) == True or check_column_winning_scenarios(symbol) == True \
