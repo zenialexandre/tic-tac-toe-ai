@@ -1,5 +1,5 @@
 import constants
-from game_helper import fill_board_matrix
+from game_helper import fill_board_matrix, search_for_winner
 
 drawed_symbols = []
 
@@ -23,6 +23,7 @@ def handle_player_action(pygame, display_surface, board_lines_color, grid_quadra
                         quadrant[1]['is_filled'] = True
                         draw_symbol(pygame, display_surface, board_lines_color, quadrant)
                         fill_board_matrix(drawed_symbols, quadrant)
+                        search_for_winner()
 
 def mouse_listener(pygame):
     mouse_pressed = pygame.mouse.get_pressed()
