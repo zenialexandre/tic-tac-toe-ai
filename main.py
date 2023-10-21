@@ -1,5 +1,6 @@
 import pygame
 import board_helper
+import menu_helper
 
 pygame.init()
 
@@ -62,27 +63,26 @@ grid_quadrants = {
     },
 }
 
-def handle_drawing(pygame, display_surface, display_surface_width, display_surface_height, board_lines_color):
-    if (game_state_handler['start_menu']['state'] == True):
-        draw_start_menu(pygame, display_surface, board_lines_color)
-    elif (game_state_handler['running']['state'] == True):
-        board_helper.draw_board(pygame, display_surface, display_surface_width, display_surface_height, board_lines_color)
-
-def draw_start_menu(pygame, display_surface, board_lines_color):
-    display_surface.blit(pygame.font.SysFont('comicsans', 35).render('Tic-Tac-Toe', 1, board_lines_color), (150, 220))
-    display_surface.blit(pygame.font.SysFont('comicsans', 20).render('Press space to initialize.', 1, board_lines_color), (150, 280))
+def handle_game_events(pygame, game_state_handler, display_surface, display_surface_width, display_surface_height, grid_quadrants, board_lines_color):
+    if (event.type == pygame.QUIT):
+        pygame.quit()
+        quit()
+    elif (game_state_handler['start_menu']['state'] == True):
+        menu_helper.handle_drawing(pygame, game_state_handler, display_surface, display_surface_width, display_surface_height, board_lines_color)
+        if (event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE):
+            game_state_handler['start_menu']['state'] = False
+            game_state_handler['running']['state'] = True
+            menu_helper.handle_drawing(pygame, game_state_handler, display_surface, display_surface_width, display_surface_height, board_lines_color)
+    elif (game_state_handler['ended']['state'] == True):
+        menu_helper.handle_drawing(pygame, game_state_handler, display_surface, display_surface_width, display_surface_height, board_lines_color)
+        if (event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE):
+            game_state_handler['ended']['state'] = False
+            game_state_handler['running']['state'] = True
+            menu_helper.handle_drawing(pygame, game_state_handler, display_surface, display_surface_width, display_surface_height, board_lines_color)
+    elif (event.type == pygame.MOUSEBUTTONDOWN and game_state_handler['running']['state'] == True):
+        board_helper.handle_player_action(pygame, game_state_handler, display_surface, grid_quadrants, board_lines_color)
 
 while True:
     for event in pygame.event.get():
-        if (event.type == pygame.QUIT):
-            pygame.quit()
-            quit()
-        elif (event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and game_state_handler['start_menu']['state'] == True):
-            game_state_handler['start_menu']['state'] = False
-            game_state_handler['running']['state'] = True
-        elif (event.type == pygame.MOUSEBUTTONDOWN and game_state_handler['running']['state'] == True):
-            board_helper.handle_player_action(pygame, display_surface, grid_quadrants, board_lines_color)
-
+        handle_game_events(pygame, game_state_handler, display_surface, display_surface_width, display_surface_height, grid_quadrants, board_lines_color)
         pygame.display.update()
-        display_surface.fill(pygame.Color('white'))
-        handle_drawing(pygame, display_surface, display_surface_width, display_surface_height, board_lines_color)
