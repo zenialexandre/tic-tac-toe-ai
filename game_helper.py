@@ -53,11 +53,15 @@ def check_crossed_winning_scenarios(symbol):
     return (board_matrix[0][0] == symbol and board_matrix[1][1] == symbol and board_matrix[2][2] == symbol) \
         or (board_matrix[0][2] == symbol and board_matrix[1][1] == symbol and board_matrix[2][0] == symbol)
 
+def modify_game_state(game_state_handler, start_menu_state, running_state, ended_state):
+    game_state_handler[constants.START_MENU][constants.STATE] = start_menu_state
+    game_state_handler[constants.RUNNING][constants.STATE] = running_state
+    game_state_handler[constants.ENDED][constants.STATE] = ended_state
+
 def end_game_state_transition(game_state_handler, grid_quadrants, drawed_symbols):
     global board_matrix
 
-    game_state_handler['running']['state'] = False
-    game_state_handler['ended']['state'] = True
+    modify_game_state(game_state_handler, False, False, True)
     clean_filled_quadrants(grid_quadrants)
     board_matrix = numpy.full((3, 3), '-')
     drawed_symbols.clear()
