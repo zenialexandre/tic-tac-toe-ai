@@ -2,6 +2,7 @@ import pygame
 import board_helper
 import menu_helper
 import game_helper
+import constants
 
 pygame.init()
 
@@ -68,9 +69,9 @@ def handle_game_events(pygame, game_state_handler, display_surface, display_surf
     if (event.type == pygame.QUIT):
         pygame.quit()
         quit()
-    elif (game_state_handler['start_menu']['state'] == True or game_state_handler['ended']['state'] == True):
+    elif (game_state_handler[constants.START_MENU][constants.STATE] == True or game_state_handler[constants.ENDED][constants.STATE] == True):
         default_play_process(pygame, event, game_state_handler, display_surface, display_surface_width, display_surface_height, board_lines_color)
-    elif (event.type == pygame.MOUSEBUTTONDOWN and game_state_handler['running']['state'] == True):
+    elif (event.type == pygame.MOUSEBUTTONDOWN and game_state_handler[constants.RUNNING][constants.STATE] == True):
         board_helper.handle_player_action(pygame, game_state_handler, display_surface, grid_quadrants, board_lines_color)
 
 def default_play_process(pygame, event, game_state_handler, display_surface, display_surface_width, display_surface_height, board_lines_color):

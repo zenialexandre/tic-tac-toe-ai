@@ -1,13 +1,13 @@
 import board_helper
+import constants
 
 def handle_drawing(pygame, game_state_handler, display_surface, display_surface_width, display_surface_height, board_lines_color):
-    if (game_state_handler['start_menu']['state'] == True):
+    display_surface.fill(pygame.Color('white'))
+    if (game_state_handler[constants.START_MENU][constants.STATE] == True):
         draw_start_menu(pygame, display_surface, board_lines_color)
-    elif (game_state_handler['running']['state'] == True):
-        display_surface.fill(pygame.Color('white'))
+    elif (game_state_handler[constants.RUNNING][constants.STATE] == True):
         board_helper.draw_board(pygame, display_surface, display_surface_width, display_surface_height, board_lines_color)
-    elif (game_state_handler['ended']['state'] == True):
-        display_surface.fill(pygame.Color('white'))
+    elif (game_state_handler[constants.ENDED][constants.STATE] == True):
         draw_end_game_menu(pygame, display_surface, board_lines_color)
 
 def draw_start_menu(pygame, display_surface, board_lines_color):
