@@ -12,7 +12,7 @@ def draw_board(pygame, display_surface, display_surface_width, display_surface_h
     pygame.draw.line(display_surface, board_lines_color, (0, display_surface_height / 3), (display_surface_width, display_surface_height / 3), 7)
     pygame.draw.line(display_surface, board_lines_color, (0, display_surface_height / 3 * 2), (display_surface_width, display_surface_height / 3 * 2), 7)
 
-def handle_player_action(pygame, game_state_handler, display_surface, grid_quadrants, board_lines_color):
+def handle_player_action(pygame, game_state_handler, display_surface, grid_quadrants, first_symbol, board_lines_color):
     mouse_position = mouse_listener(pygame)
 
     if (mouse_position != 0):
@@ -21,16 +21,22 @@ def handle_player_action(pygame, game_state_handler, display_surface, grid_quadr
                 and (mouse_position[1] >= quadrant[1]['position'][1] and mouse_position[1] <= quadrant[1]['position'][3]) \
                 and (quadrant[1]['is_filled'] == False)):
                     quadrant[1]['is_filled'] = True
-                    draw_symbol(pygame, display_surface, board_lines_color, quadrant)
+                    draw_symbol(pygame, display_surface, first_symbol, board_lines_color, quadrant)
                     game_helper.fill_board_matrix(drawed_symbols, quadrant)
                     game_helper.search_for_winner(game_state_handler, grid_quadrants, drawed_symbols)
 
 def mouse_listener(pygame):
     return pygame.mouse.get_pos() if (pygame.mouse.get_pressed()[0] == True) else 0
 
-def draw_symbol(pygame, display_surface, board_lines_color, quadrant):
+def handle_ai_action(pygame, game_state_handler, display_surface, grid_quadrants, first_symbol, board_lines_color):
+    
+
+def draw_symbol(pygame, display_surface, first_symbol, board_lines_color, quadrant):
     if (len(drawed_symbols) == 0):
-        draw_x_symbol(pygame, display_surface, board_lines_color, quadrant)
+        if (first_symbol == 'x'):
+            draw_x_symbol(pygame, display_surface, board_lines_color, quadrant)
+        else:
+            draw_circle_simble(pygame, display_surface, board_lines_color, quadrant)
     else:
         if (drawed_symbols[-1] == 'x'):
             draw_circle_simble(pygame, display_surface, board_lines_color, quadrant)

@@ -6,6 +6,9 @@ import constants
 
 pygame.init()
 
+moment_player = constants.PLAYER
+max_player = constants.PLAYER
+first_symbol = 'x'
 game_icon = pygame.image.load(r'tic_tac_toe_icon.png')
 board_lines_color = pygame.Color('black')
 game_state_handler = {
@@ -72,20 +75,29 @@ def handle_game_events(pygame, game_state_handler, display_surface, display_surf
     elif (game_state_handler[constants.START_MENU][constants.STATE] == True or game_state_handler[constants.ENDED][constants.STATE] == True):
         handle_user_configuration_event(pygame, event)
         default_play_process(pygame, event, game_state_handler, display_surface, display_surface_width, display_surface_height, board_lines_color)
-    elif (event.type == pygame.MOUSEBUTTONDOWN and game_state_handler[constants.RUNNING][constants.STATE] == True):
-        board_helper.handle_player_action(pygame, game_state_handler, display_surface, grid_quadrants, board_lines_color)
+    elif (game_state_handler[constants.RUNNING][constants.STATE] == True):
+        global moment_player
+
+        if (event.type == pygame.MOUSEBUTTONDOWN and moment_player == constants.PLAYER):
+            board_helper.handle_player_action(pygame, game_state_handler, display_surface, grid_quadrants, first_symbol, board_lines_color)
+            moment_player = constants.AI
+        elif (moment_player == constants.AI):
+            board_helper.handle_ai_action(pygame, game_state_handler, display_surface, grid_quadrants, first_symbol, board_lines_color)
+            moment_player = constants.PLAYER
 
 def handle_user_configuration_event(pygame, event):
+    global moment_player
+    global max_player
+    global first_symbol
+
     if (game_state_handler[constants.START_MENU][constants.STATE] == True):
         if (event.type == pygame.KEYDOWN and event.key == pygame.K_UP):
-            # TODO
-            print('user starts playing')
+            moment_player = constants.AI
+            max_player = constants.AI
         elif (event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT):
-            # TODO
-            print('user draws o')
+            first_symbol = 'o'
         elif (event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT):
-            # TODO
-            print('users draws x')
+            first_symbol = 'x'
 
 def default_play_process(pygame, event, game_state_handler, display_surface, display_surface_width, display_surface_height, board_lines_color):
     menu_helper.handle_drawing(pygame, game_state_handler, display_surface, display_surface_width, display_surface_height, board_lines_color)
