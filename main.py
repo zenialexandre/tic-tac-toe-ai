@@ -69,6 +69,15 @@ def handle_game_events(pygame, game_state_handler, display_surface, display_surf
     if (event.type == pygame.QUIT):
         pygame.quit()
         quit()
+    elif (event.type == pygame.KEYDOWN and event.key == pygame.K_UP and game_state_handler[constants.START_MENU][constants.STATE] == True):
+        # TODO
+        print('user starts playing')
+    elif (event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT and game_state_handler[constants.START_MENU][constants.STATE] == True):
+        # TODO
+        print('user draws o')
+    elif (event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT and game_state_handler[constants.START_MENU][constants.STATE] == True):
+        # TODO
+        print('users draws x')
     elif (game_state_handler[constants.START_MENU][constants.STATE] == True or game_state_handler[constants.ENDED][constants.STATE] == True):
         default_play_process(pygame, event, game_state_handler, display_surface, display_surface_width, display_surface_height, board_lines_color)
     elif (event.type == pygame.MOUSEBUTTONDOWN and game_state_handler[constants.RUNNING][constants.STATE] == True):
@@ -77,7 +86,11 @@ def handle_game_events(pygame, game_state_handler, display_surface, display_surf
 def default_play_process(pygame, event, game_state_handler, display_surface, display_surface_width, display_surface_height, board_lines_color):
     menu_helper.handle_drawing(pygame, game_state_handler, display_surface, display_surface_width, display_surface_height, board_lines_color)
     if (event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE):
-        game_helper.modify_game_state(game_state_handler, False, True, False)
+        if (game_state_handler[constants.START_MENU][constants.STATE] == True):
+            game_helper.modify_game_state(game_state_handler, False, True, False)
+        else:
+            game_helper.modify_game_state(game_state_handler, True, False, False)
+
         menu_helper.handle_drawing(pygame, game_state_handler, display_surface, display_surface_width, display_surface_height, board_lines_color)
 
 while True:
