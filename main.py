@@ -69,19 +69,23 @@ def handle_game_events(pygame, game_state_handler, display_surface, display_surf
     if (event.type == pygame.QUIT):
         pygame.quit()
         quit()
-    elif (event.type == pygame.KEYDOWN and event.key == pygame.K_UP and game_state_handler[constants.START_MENU][constants.STATE] == True):
-        # TODO
-        print('user starts playing')
-    elif (event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT and game_state_handler[constants.START_MENU][constants.STATE] == True):
-        # TODO
-        print('user draws o')
-    elif (event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT and game_state_handler[constants.START_MENU][constants.STATE] == True):
-        # TODO
-        print('users draws x')
     elif (game_state_handler[constants.START_MENU][constants.STATE] == True or game_state_handler[constants.ENDED][constants.STATE] == True):
+        handle_user_configuration_event(pygame, event)
         default_play_process(pygame, event, game_state_handler, display_surface, display_surface_width, display_surface_height, board_lines_color)
     elif (event.type == pygame.MOUSEBUTTONDOWN and game_state_handler[constants.RUNNING][constants.STATE] == True):
         board_helper.handle_player_action(pygame, game_state_handler, display_surface, grid_quadrants, board_lines_color)
+
+def handle_user_configuration_event(pygame, event):
+    if (game_state_handler[constants.START_MENU][constants.STATE] == True):
+        if (event.type == pygame.KEYDOWN and event.key == pygame.K_UP):
+            # TODO
+            print('user starts playing')
+        elif (event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT):
+            # TODO
+            print('user draws o')
+        elif (event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT):
+            # TODO
+            print('users draws x')
 
 def default_play_process(pygame, event, game_state_handler, display_surface, display_surface_width, display_surface_height, board_lines_color):
     menu_helper.handle_drawing(pygame, game_state_handler, display_surface, display_surface_width, display_surface_height, board_lines_color)
