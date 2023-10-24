@@ -30,28 +30,31 @@ def fill_board_matrix(drawed_symbols, quadrant):
         board_matrix[2][2] = drawed_symbols[-1]
 
 def search_for_winner(game_state_handler, grid_quadrants, drawed_symbols):
-    if (check_winning_scenarios('x') == True or check_winning_scenarios('o') == True):
+    if (check_winning_scenarios(None, constants.X_SYMBOL) == True or check_winning_scenarios(None, constants.O_SYMBOL) == True):
         end_game_state_transition(game_state_handler, grid_quadrants, drawed_symbols)
     elif (numpy.count_nonzero(board_matrix == '-') == 0):
         end_game_state_transition(game_state_handler, grid_quadrants, drawed_symbols)
 
-def check_winning_scenarios(symbol):
-    return check_row_winning_scenarios(symbol) == True or check_column_winning_scenarios(symbol) == True \
-        or check_crossed_winning_scenarios(symbol) == True
+def check_winning_scenarios(board_matrix_clone, symbol):
+    board_matrix_internal = board_matrix if (board_matrix_clone == None) else board_matrix_clone
 
-def check_row_winning_scenarios(symbol):
-    return (board_matrix[0][0] == symbol and board_matrix[0][1] == symbol and board_matrix[0][2] == symbol) \
-        or (board_matrix[1][0] == symbol and board_matrix[1][1] == symbol and board_matrix[1][2] == symbol) \
-        or (board_matrix[2][0] == symbol and board_matrix[2][1] == symbol and board_matrix[2][2] == symbol)
+    return check_row_winning_scenarios(board_matrix_internal, symbol) == True \
+        or check_column_winning_scenarios(board_matrix_internal, symbol) == True \
+        or check_crossed_winning_scenarios(board_matrix_internal, symbol) == True
 
-def check_column_winning_scenarios(symbol):
-    return (board_matrix[0][0] == symbol and board_matrix[1][0] == symbol and board_matrix[2][0] == symbol) \
-        or (board_matrix[0][1] == symbol and board_matrix[1][1] == symbol and board_matrix[2][1] == symbol) \
-        or (board_matrix[0][2] == symbol and board_matrix[1][2] == symbol and board_matrix[2][2] == symbol)
+def check_row_winning_scenarios(board_matrix_internal, symbol):
+    return (board_matrix_internal[0][0] == symbol and board_matrix_internal[0][1] == symbol and board_matrix_internal[0][2] == symbol) \
+        or (board_matrix_internal[1][0] == symbol and board_matrix_internal[1][1] == symbol and board_matrix_internal[1][2] == symbol) \
+        or (board_matrix_internal[2][0] == symbol and board_matrix_internal[2][1] == symbol and board_matrix_internal[2][2] == symbol)
 
-def check_crossed_winning_scenarios(symbol):
-    return (board_matrix[0][0] == symbol and board_matrix[1][1] == symbol and board_matrix[2][2] == symbol) \
-        or (board_matrix[0][2] == symbol and board_matrix[1][1] == symbol and board_matrix[2][0] == symbol)
+def check_column_winning_scenarios(board_matrix_internal, symbol):
+    return (board_matrix_internal[0][0] == symbol and board_matrix_internal[1][0] == symbol and board_matrix_internal[2][0] == symbol) \
+        or (board_matrix_internal[0][1] == symbol and board_matrix_internal[1][1] == symbol and board_matrix_internal[2][1] == symbol) \
+        or (board_matrix_internal[0][2] == symbol and board_matrix_internal[1][2] == symbol and board_matrix_internal[2][2] == symbol)
+
+def check_crossed_winning_scenarios(board_matrix_internal, symbol):
+    return (board_matrix_internal[0][0] == symbol and board_matrix_internal[1][1] == symbol and board_matrix_internal[2][2] == symbol) \
+        or (board_matrix_internal[0][2] == symbol and board_matrix_internal[1][1] == symbol and board_matrix_internal[2][0] == symbol)
 
 def modify_game_state(game_state_handler, start_menu_state, running_state, ended_state):
     game_state_handler[constants.START_MENU][constants.STATE] = start_menu_state
@@ -68,5 +71,5 @@ def end_game_state_transition(game_state_handler, grid_quadrants, drawed_symbols
 
 def clean_filled_quadrants(grid_quadrants):
     for quadrant in grid_quadrants.items():
-        if (quadrant[1]['is_filled'] == True):
-            quadrant[1]['is_filled'] = False
+        if (quadrant[1][constants.IS_FILLED] == True):
+            quadrant[1][constants.IS_FILLED] = False

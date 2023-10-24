@@ -1,8 +1,7 @@
-import constants
 import game_helper
+import constants
 
 drawed_symbols = []
-profundidade = 1
 
 def draw_board(pygame, display_surface, display_surface_width, display_surface_height, board_lines_color):
     # Board vertical lines
@@ -13,52 +12,36 @@ def draw_board(pygame, display_surface, display_surface_width, display_surface_h
     pygame.draw.line(display_surface, board_lines_color, (0, display_surface_height / 3), (display_surface_width, display_surface_height / 3), 7)
     pygame.draw.line(display_surface, board_lines_color, (0, display_surface_height / 3 * 2), (display_surface_width, display_surface_height / 3 * 2), 7)
 
-def handle_player_action(pygame, game_state_handler, display_surface, grid_quadrants, first_symbol, board_lines_color):
+def handle_player_action(pygame, display_surface, game_state_handler, generic_player_handler, grid_quadrants, board_lines_color):
     mouse_position = mouse_listener(pygame)
 
     if (mouse_position != 0):
         for quadrant in grid_quadrants.items():
-            if ((mouse_position[0] >= quadrant[1]['position'][0] and mouse_position[0] <= quadrant[1]['position'][2]) \
-                and (mouse_position[1] >= quadrant[1]['position'][1] and mouse_position[1] <= quadrant[1]['position'][3]) \
-                and (quadrant[1]['is_filled'] == False)):
-                    quadrant[1]['is_filled'] = True
-                    draw_symbol(pygame, display_surface, first_symbol, board_lines_color, quadrant)
+            if ((mouse_position[0] >= quadrant[1][constants.POSITION][0] and mouse_position[0] <= quadrant[1][constants.POSITION][2]) \
+                and (mouse_position[1] >= quadrant[1][constants.POSITION][1] and mouse_position[1] <= quadrant[1][constants.POSITION][3]) \
+                and (quadrant[1][constants.IS_FILLED] == False)):
+                    quadrant[1][constants.IS_FILLED] = True
+                    draw_symbol(pygame, display_surface, generic_player_handler, quadrant, board_lines_color)
                     game_helper.fill_board_matrix(drawed_symbols, quadrant)
                     game_helper.search_for_winner(game_state_handler, grid_quadrants, drawed_symbols)
 
 def mouse_listener(pygame):
     return pygame.mouse.get_pos() if (pygame.mouse.get_pressed()[0] == True) else 0
 
-def handle_ai_action(pygame, game_state_handler, display_surface, grid_quadrants, first_symbol, board_lines_color, is_max):
-    matrix_copy = game_helper.board_matrix
-
-    if(constants.AI == is_max):
-        pass
-    else:
-        pass
-
-def minmax_decision(board, row, col):
-
-   pass
-
-def is_terminal(board, first_symbol, is_max, row, col):
-    pass
-
-
-def draw_symbol(pygame, display_surface, first_symbol, board_lines_color, quadrant):
+def draw_symbol(pygame, display_surface, generic_player_handler, quadrant, board_lines_color):
     if (len(drawed_symbols) == 0):
-        if (first_symbol == 'x'):
-            draw_x_symbol(pygame, display_surface, board_lines_color, quadrant)
+        if (generic_player_handler[constants.CURRENT_SYMBOL] == constants.X_SYMBOL):
+            draw_x_symbol(pygame, display_surface, quadrant, board_lines_color)
         else:
-            draw_circle_symbol(pygame, display_surface, board_lines_color, quadrant)
+            draw_circle_symbol(pygame, display_surface, quadrant, board_lines_color)
     else:
-        if (drawed_symbols[-1] == 'x'):
-            draw_circle_symbol(pygame, display_surface, board_lines_color, quadrant)
+        if (drawed_symbols[-1] == constants.X_SYMBOL):
+            draw_circle_symbol(pygame, display_surface, quadrant, board_lines_color)
         else:
-            draw_x_symbol(pygame, display_surface, board_lines_color, quadrant)
+            draw_x_symbol(pygame, display_surface, quadrant, board_lines_color)
 
-def draw_x_symbol(pygame, display_surface, board_lines_color, quadrant):
-    drawed_symbols.append('x')
+def draw_x_symbol(pygame, display_surface, quadrant, board_lines_color):
+    drawed_symbols.append(constants.X_SYMBOL)
 
     if (quadrant[0] == constants.FIRST_QUADRANT):
         pygame.draw.line(display_surface, board_lines_color, (10, 10), (150, 150), 7)
@@ -88,8 +71,8 @@ def draw_x_symbol(pygame, display_surface, board_lines_color, quadrant):
         pygame.draw.line(display_surface, board_lines_color, (352, 356), (504, 508), 7)
         pygame.draw.line(display_surface, board_lines_color, (352, 508), (504, 356), 7)
 
-def draw_circle_symbol(pygame, display_surface, board_lines_color, quadrant):
-    drawed_symbols.append('o')
+def draw_circle_symbol(pygame, display_surface, quadrant, board_lines_color):
+    drawed_symbols.append(constants.O_SYMBOL)
 
     if (quadrant[0] == constants.FIRST_QUADRANT):
         pygame.draw.circle(display_surface, board_lines_color, (76, 80), 50, 5)
