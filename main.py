@@ -82,7 +82,7 @@ def handle_game_events(pygame, game_state_handler, display_surface, display_surf
             board_helper.handle_player_action(pygame, game_state_handler, display_surface, grid_quadrants, first_symbol, board_lines_color)
             moment_player = constants.AI
         elif (moment_player == constants.AI):
-            board_helper.handle_ai_action(pygame, game_state_handler, display_surface, grid_quadrants, first_symbol, board_lines_color)
+            board_helper.handle_ai_action(pygame, game_state_handler, display_surface, grid_quadrants, first_symbol, board_lines_color, max_player)
             moment_player = constants.PLAYER
 
 def handle_user_configuration_event(pygame, event):

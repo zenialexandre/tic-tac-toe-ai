@@ -2,6 +2,7 @@ import constants
 import game_helper
 
 drawed_symbols = []
+profundidade = 1
 
 def draw_board(pygame, display_surface, display_surface_width, display_surface_height, board_lines_color):
     # Board vertical lines
@@ -28,18 +29,31 @@ def handle_player_action(pygame, game_state_handler, display_surface, grid_quadr
 def mouse_listener(pygame):
     return pygame.mouse.get_pos() if (pygame.mouse.get_pressed()[0] == True) else 0
 
-def handle_ai_action(pygame, game_state_handler, display_surface, grid_quadrants, first_symbol, board_lines_color):
-    
+def handle_ai_action(pygame, game_state_handler, display_surface, grid_quadrants, first_symbol, board_lines_color, is_max):
+    matrix_copy = game_helper.board_matrix
+
+    if(constants.AI == is_max):
+        pass
+    else:
+        pass
+
+def minmax_decision(board, row, col):
+
+   pass
+
+def is_terminal(board, first_symbol, is_max, row, col):
+    pass
+
 
 def draw_symbol(pygame, display_surface, first_symbol, board_lines_color, quadrant):
     if (len(drawed_symbols) == 0):
         if (first_symbol == 'x'):
             draw_x_symbol(pygame, display_surface, board_lines_color, quadrant)
         else:
-            draw_circle_simble(pygame, display_surface, board_lines_color, quadrant)
+            draw_circle_symbol(pygame, display_surface, board_lines_color, quadrant)
     else:
         if (drawed_symbols[-1] == 'x'):
-            draw_circle_simble(pygame, display_surface, board_lines_color, quadrant)
+            draw_circle_symbol(pygame, display_surface, board_lines_color, quadrant)
         else:
             draw_x_symbol(pygame, display_surface, board_lines_color, quadrant)
 
@@ -74,7 +88,7 @@ def draw_x_symbol(pygame, display_surface, board_lines_color, quadrant):
         pygame.draw.line(display_surface, board_lines_color, (352, 356), (504, 508), 7)
         pygame.draw.line(display_surface, board_lines_color, (352, 508), (504, 356), 7)
 
-def draw_circle_simble(pygame, display_surface, board_lines_color, quadrant):
+def draw_circle_symbol(pygame, display_surface, board_lines_color, quadrant):
     drawed_symbols.append('o')
 
     if (quadrant[0] == constants.FIRST_QUADRANT):
