@@ -35,24 +35,24 @@ def search_for_winner(game_state_handler, grid_quadrants, drawed_symbols):
     elif (numpy.count_nonzero(board_matrix == '-') == 0):
         end_game_state_transition(game_state_handler, grid_quadrants, drawed_symbols)
 
-def check_winning_scenarios(board_matrix_clone, symbol):
-    board_matrix_internal = board_matrix if (board_matrix_clone == None) else board_matrix_clone
+def check_winning_scenarios(board_matrix_clone, symbol) -> bool:
+    board_matrix_internal = board_matrix if (board_matrix_clone is None) else board_matrix_clone
 
     return check_row_winning_scenarios(board_matrix_internal, symbol) == True \
         or check_column_winning_scenarios(board_matrix_internal, symbol) == True \
         or check_crossed_winning_scenarios(board_matrix_internal, symbol) == True
 
-def check_row_winning_scenarios(board_matrix_internal, symbol):
+def check_row_winning_scenarios(board_matrix_internal, symbol) -> bool:
     return (board_matrix_internal[0][0] == symbol and board_matrix_internal[0][1] == symbol and board_matrix_internal[0][2] == symbol) \
         or (board_matrix_internal[1][0] == symbol and board_matrix_internal[1][1] == symbol and board_matrix_internal[1][2] == symbol) \
         or (board_matrix_internal[2][0] == symbol and board_matrix_internal[2][1] == symbol and board_matrix_internal[2][2] == symbol)
 
-def check_column_winning_scenarios(board_matrix_internal, symbol):
+def check_column_winning_scenarios(board_matrix_internal, symbol) -> bool:
     return (board_matrix_internal[0][0] == symbol and board_matrix_internal[1][0] == symbol and board_matrix_internal[2][0] == symbol) \
         or (board_matrix_internal[0][1] == symbol and board_matrix_internal[1][1] == symbol and board_matrix_internal[2][1] == symbol) \
         or (board_matrix_internal[0][2] == symbol and board_matrix_internal[1][2] == symbol and board_matrix_internal[2][2] == symbol)
 
-def check_crossed_winning_scenarios(board_matrix_internal, symbol):
+def check_crossed_winning_scenarios(board_matrix_internal, symbol) -> bool:
     return (board_matrix_internal[0][0] == symbol and board_matrix_internal[1][1] == symbol and board_matrix_internal[2][2] == symbol) \
         or (board_matrix_internal[0][2] == symbol and board_matrix_internal[1][1] == symbol and board_matrix_internal[2][0] == symbol)
 

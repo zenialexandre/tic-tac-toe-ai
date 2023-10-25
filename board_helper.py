@@ -25,7 +25,7 @@ def handle_player_action(pygame, display_surface, game_state_handler, generic_pl
                     game_helper.fill_board_matrix(drawed_symbols, quadrant)
                     game_helper.search_for_winner(game_state_handler, grid_quadrants, drawed_symbols)
 
-def mouse_listener(pygame):
+def mouse_listener(pygame) -> int:
     return pygame.mouse.get_pos() if (pygame.mouse.get_pressed()[0] == True) else 0
 
 def draw_symbol(pygame, display_surface, generic_player_handler, quadrant, board_lines_color):
