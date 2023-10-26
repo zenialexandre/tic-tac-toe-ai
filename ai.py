@@ -24,6 +24,9 @@ def handle_ai_action(pygame, display_surface, game_state_handler, generic_player
                     best_possible_move[constants.ROW_POSITION] = i
                     best_possible_move[constants.COLUMN_POSITION] = j
 
+    execute_ai_actions(pygame, display_surface, game_state_handler, generic_player_handler, grid_quadrants, best_possible_move, board_lines_color)
+
+def execute_ai_actions(pygame, display_surface, game_state_handler, generic_player_handler, grid_quadrants, best_possible_move, board_lines_color):
     ai_quadrant = get_ai_quadrant(best_possible_move)
     board_helper.draw_symbol(pygame, display_surface, generic_player_handler, True, ai_quadrant, None, board_lines_color)
     game_helper.fill_board_matrix(board_helper.drawed_symbols, True, ai_quadrant, None)
@@ -64,7 +67,7 @@ def get_ai_quadrant(best_possible_move) -> str:
     quadrant = constants.FIRST_QUADRANT
 
     if (best_possible_move[constants.ROW_POSITION] == 0 and best_possible_move[constants.COLUMN_POSITION] == 0):
-        return quadrant
+        pass
     elif (best_possible_move[constants.ROW_POSITION] == 0 and best_possible_move[constants.COLUMN_POSITION] == 1):
         quadrant = constants.SECOND_QUADRANT
     elif (best_possible_move[constants.ROW_POSITION] == 0 and best_possible_move[constants.COLUMN_POSITION] == 2):
@@ -81,22 +84,15 @@ def get_ai_quadrant(best_possible_move) -> str:
         quadrant = constants.EIGHTH_QUADRANT
     else:
         quadrant = constants.NINTH_QUADRANT
-
     return quadrant
 
 def check_winner(board_matrix_clone, symbol) -> int:
-    if ((board_matrix_clone[0][0] == symbol and board_matrix_clone[0][1] == symbol and board_matrix_clone[0][2] == symbol) \
-        or (board_matrix_clone[1][0] == symbol and board_matrix_clone[1][1] == symbol and board_matrix_clone[1][2] == symbol) \
-        or (board_matrix_clone[2][0] == symbol and board_matrix_clone[2][1] == symbol and board_matrix_clone[2][2] == symbol)):
-        return 1
-    elif ((board_matrix_clone[0][0] == symbol and board_matrix_clone[1][0] == symbol and board_matrix_clone[2][0] == symbol) \
-        or (board_matrix_clone[0][1] == symbol and board_matrix_clone[1][1] == symbol and board_matrix_clone[2][1] == symbol) \
-        or (board_matrix_clone[0][2] == symbol and board_matrix_clone[1][2] == symbol and board_matrix_clone[2][2] == symbol)):
-        return 1
-    elif ((board_matrix_clone[0][0] == symbol and board_matrix_clone[1][1] == symbol and board_matrix_clone[2][2] == symbol) \
-        or (board_matrix_clone[0][2] == symbol and board_matrix_clone[1][1] == symbol and board_matrix_clone[2][0] == symbol)):
-        return 1
+    winning_result = 1
+
+    if (game_helper.check_winning_scenarios(board_matrix_clone, symbol)):
+        pass
     elif (numpy.count_nonzero(board_matrix_clone == '-') == 0):
-        return 0
+        winning_result = 0
     else:
-        return -1
+        winning_result = -1
+    return winning_result
