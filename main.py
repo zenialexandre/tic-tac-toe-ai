@@ -2,12 +2,19 @@ import pygame
 import board_helper
 import menu_helper
 import game_helper
+import ai
 import constants
 
 pygame.init()
 
 game_icon = pygame.image.load(r'tic_tac_toe_icon.png')
 board_lines_color = pygame.Color('black')
+pygame.display.set_caption('tic-tac-toe-ai')
+pygame.display.set_icon(game_icon)
+display_surface = pygame.display.set_mode((512, 512))
+display_surface.fill(pygame.Color('white'))
+display_surface_width, display_surface_height = display_surface.get_size()
+
 game_state_handler = {
     'start_menu': {
         'state': True
@@ -20,11 +27,11 @@ game_state_handler = {
     }
 }
 
-pygame.display.set_caption('tic-tac-toe-ai')
-pygame.display.set_icon(game_icon)
-display_surface = pygame.display.set_mode((512, 512))
-display_surface.fill(pygame.Color('white'))
-display_surface_width, display_surface_height = display_surface.get_size()
+generic_player_handler = {
+    'moment_player': constants.PLAYER,
+    'max_player': constants.PLAYER,
+    'current_symbol': constants.X_SYMBOL
+}
 
 grid_quadrants = {
     'first_quadrant': {
@@ -65,27 +72,33 @@ grid_quadrants = {
     },
 }
 
-def handle_game_events(pygame, game_state_handler, display_surface, display_surface_width, display_surface_height, grid_quadrants, board_lines_color):
+def handle_game_events(pygame, game_state_handler, generic_player_handler, display_surface, display_surface_width, display_surface_height, grid_quadrants, board_lines_color):
     if (event.type == pygame.QUIT):
         pygame.quit()
         quit()
     elif (game_state_handler[constants.START_MENU][constants.STATE] == True or game_state_handler[constants.ENDED][constants.STATE] == True):
-        handle_user_configuration_event(pygame, event)
+        handle_game_configuration_event(pygame, event, generic_player_handler)
         default_play_process(pygame, event, game_state_handler, display_surface, display_surface_width, display_surface_height, board_lines_color)
-    elif (event.type == pygame.MOUSEBUTTONDOWN and game_state_handler[constants.RUNNING][constants.STATE] == True):
-        board_helper.handle_player_action(pygame, game_state_handler, display_surface, grid_quadrants, board_lines_color)
+    elif (game_state_handler[constants.RUNNING][constants.STATE] == True):
+        if (event.type == pygame.MOUSEBUTTONDOWN and generic_player_handler[constants.MOMENT_PLAYER] == constants.PLAYER):
+            board_helper.handle_player_action(pygame, display_surface, game_state_handler, generic_player_handler, grid_quadrants, board_lines_color)
+            generic_player_handler[constants.MOMENT_PLAYER] = constants.AI
+        elif (generic_player_handler[constants.MOMENT_PLAYER] == constants.AI):
+            ai.handle_ai_action(pygame, display_surface, game_state_handler, generic_player_handler, grid_quadrants, board_lines_color)
+            generic_player_handler[constants.MOMENT_PLAYER] = constants.PLAYER
 
-def handle_user_configuration_event(pygame, event):
+def handle_game_configuration_event(pygame, event, generic_player_handler):
     if (game_state_handler[constants.START_MENU][constants.STATE] == True):
         if (event.type == pygame.KEYDOWN and event.key == pygame.K_UP):
-            # TODO
-            print('user starts playing')
+            generic_player_handler[constants.MOMENT_PLAYER] = constants.AI
+            generic_player_handler[constants.MAX_PLAYER] = constants.AI
+        elif (event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN):
+            generic_player_handler[constants.MOMENT_PLAYER] = constants.PLAYER
+            generic_player_handler[constants.MAX_PLAYER] = constants.PLAYER
         elif (event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT):
-            # TODO
-            print('user draws o')
+            generic_player_handler[constants.CURRENT_SYMBOL] = constants.O_SYMBOL
         elif (event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT):
-            # TODO
-            print('users draws x')
+            generic_player_handler[constants.CURRENT_SYMBOL] = constants.X_SYMBOL
 
 def default_play_process(pygame, event, game_state_handler, display_surface, display_surface_width, display_surface_height, board_lines_color):
     menu_helper.handle_drawing(pygame, game_state_handler, display_surface, display_surface_width, display_surface_height, board_lines_color)
@@ -99,5 +112,6 @@ def default_play_process(pygame, event, game_state_handler, display_surface, dis
 
 while True:
     for event in pygame.event.get():
-        handle_game_events(pygame, game_state_handler, display_surface, display_surface_width, display_surface_height, grid_quadrants, board_lines_color)
+        handle_game_events(pygame, game_state_handler, generic_player_handler,
+            display_surface, display_surface_width, display_surface_height, grid_quadrants, board_lines_color)
         pygame.display.update()

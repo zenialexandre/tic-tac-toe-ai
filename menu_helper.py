@@ -12,10 +12,10 @@ def handle_drawing(pygame, game_state_handler, display_surface, display_surface_
 
 def draw_start_menu(pygame, display_surface, board_lines_color):
     display_surface.blit(pygame.font.SysFont('comicsans', 35).render('Tic-Tac-Toe', 1, board_lines_color), (150, 180))
-    display_surface.blit(pygame.font.SysFont('comicsans', 20).render('Press space to initialize.', 1, board_lines_color), (145, 240))
-    display_surface.blit(pygame.font.SysFont('comicsans', 20).render('Press arrow up to start playing!', 1, board_lines_color), (120, 280))
-    display_surface.blit(pygame.font.SysFont('comicsans', 15).render('Press arrow left to draw "o"/', 1, board_lines_color), (60, 320))
-    display_surface.blit(pygame.font.SysFont('comicsans', 15).render('Press arrow right to draw "x"', 1, board_lines_color), (265, 320))
+    display_surface.blit(pygame.font.SysFont('comicsans', 15).render('Press space to initialize.', 1, board_lines_color), (60, 250))
+    display_surface.blit(pygame.font.SysFont('comicsans', 15).render('Press arrow up to let the AI start playing!', 1, board_lines_color), (60, 280))
+    display_surface.blit(pygame.font.SysFont('comicsans', 15).render('Press arrow left to draw "o"/', 1, board_lines_color), (60, 310))
+    display_surface.blit(pygame.font.SysFont('comicsans', 15).render('Press arrow right to draw "x"', 1, board_lines_color), (265, 310))
 
 def draw_end_game_menu(pygame, display_surface, board_lines_color):
     display_surface.blit(pygame.font.SysFont('comicsans', 35).render('Game ended!', 1, board_lines_color), (150, 180))
