@@ -40,34 +40,31 @@ def draw_symbol(pygame, display_surface, generic_player_handler, is_ai, ai_quadr
         else:
             draw_x_symbol(pygame, display_surface, is_ai, ai_quadrant, quadrant, board_lines_color)
 
-def draw_symbol_verification(is_ai, ai_quadrant, quadrant, generic_quadrant) -> bool:
-    return (not is_ai and quadrant[0] == generic_quadrant) or (is_ai == True and ai_quadrant == generic_quadrant)
-
 def draw_x_symbol(pygame, display_surface, is_ai, ai_quadrant, quadrant, board_lines_color):
     drawed_symbols.append(constants.X_SYMBOL)
 
-    if (draw_symbol_verification(is_ai, ai_quadrant, quadrant, constants.FIRST_QUADRANT) == True):
+    if (game_helper.quadrant_verification(is_ai, ai_quadrant, quadrant, constants.FIRST_QUADRANT) == True):
         pygame.draw.line(display_surface, board_lines_color, (10, 10), (150, 150), 7)
         pygame.draw.line(display_surface, board_lines_color, (10, 150), (150, 10), 7)
-    elif (draw_symbol_verification(is_ai, ai_quadrant, quadrant, constants.SECOND_QUADRANT)):
+    elif (game_helper.quadrant_verification(is_ai, ai_quadrant, quadrant, constants.SECOND_QUADRANT)):
         pygame.draw.line(display_surface, board_lines_color, (180, 10), (330, 150), 7)
         pygame.draw.line(display_surface, board_lines_color, (180, 150), (330, 10), 7)
-    elif (draw_symbol_verification(is_ai, ai_quadrant, quadrant, constants.THIRD_QUADRANT)):
+    elif (game_helper.quadrant_verification(is_ai, ai_quadrant, quadrant, constants.THIRD_QUADRANT)):
         pygame.draw.line(display_surface, board_lines_color, (356, 10), (508, 150), 7)
         pygame.draw.line(display_surface, board_lines_color, (356, 150), (508, 10), 7)
-    elif (draw_symbol_verification(is_ai, ai_quadrant, quadrant, constants.FOURTH_QUADRANT)):
+    elif (game_helper.quadrant_verification(is_ai, ai_quadrant, quadrant, constants.FOURTH_QUADRANT)):
         pygame.draw.line(display_surface, board_lines_color, (10, 180), (150, 330), 7)
         pygame.draw.line(display_surface, board_lines_color, (150, 180), (10, 330), 7)
-    elif (draw_symbol_verification(is_ai, ai_quadrant, quadrant, constants.FIFTH_QUADRANT)):
+    elif (game_helper.quadrant_verification(is_ai, ai_quadrant, quadrant, constants.FIFTH_QUADRANT)):
         pygame.draw.line(display_surface, board_lines_color, (180, 180), (330, 330), 7)
         pygame.draw.line(display_surface, board_lines_color, (180, 330), (330, 180), 7)
-    elif (draw_symbol_verification(is_ai, ai_quadrant, quadrant, constants.SIXTH_QUADRANT)):
+    elif (game_helper.quadrant_verification(is_ai, ai_quadrant, quadrant, constants.SIXTH_QUADRANT)):
         pygame.draw.line(display_surface, board_lines_color, (356, 180), (508, 330), 7)
         pygame.draw.line(display_surface, board_lines_color, (356, 330), (508, 180), 7)
-    elif (draw_symbol_verification(is_ai, ai_quadrant, quadrant, constants.SEVENTH_QUADRANT)):
+    elif (game_helper.quadrant_verification(is_ai, ai_quadrant, quadrant, constants.SEVENTH_QUADRANT)):
         pygame.draw.line(display_surface, board_lines_color, (10, 356), (150, 508), 7)
         pygame.draw.line(display_surface, board_lines_color, (150, 356), (10, 508), 7)
-    elif (draw_symbol_verification(is_ai, ai_quadrant, quadrant, constants.EIGHTH_QUADRANT)):
+    elif (game_helper.quadrant_verification(is_ai, ai_quadrant, quadrant, constants.EIGHTH_QUADRANT)):
         pygame.draw.line(display_surface, board_lines_color, (180, 356), (330, 508), 7)
         pygame.draw.line(display_surface, board_lines_color, (180, 508), (330, 356), 7)
     else:
@@ -77,21 +74,21 @@ def draw_x_symbol(pygame, display_surface, is_ai, ai_quadrant, quadrant, board_l
 def draw_circle_symbol(pygame, display_surface, is_ai, ai_quadrant, quadrant, board_lines_color):
     drawed_symbols.append(constants.O_SYMBOL)
 
-    if (draw_symbol_verification(is_ai, ai_quadrant, quadrant, constants.FIRST_QUADRANT)):
+    if (game_helper.quadrant_verification(is_ai, ai_quadrant, quadrant, constants.FIRST_QUADRANT)):
         pygame.draw.circle(display_surface, board_lines_color, (76, 80), 50, 5)
-    elif (draw_symbol_verification(is_ai, ai_quadrant, quadrant, constants.SECOND_QUADRANT)):
+    elif (game_helper.quadrant_verification(is_ai, ai_quadrant, quadrant, constants.SECOND_QUADRANT)):
         pygame.draw.circle(display_surface, board_lines_color, (250, 80), 50, 5)
-    elif (draw_symbol_verification(is_ai, ai_quadrant, quadrant, constants.THIRD_QUADRANT)):
+    elif (game_helper.quadrant_verification(is_ai, ai_quadrant, quadrant, constants.THIRD_QUADRANT)):
         pygame.draw.circle(display_surface, board_lines_color, (420, 80), 50, 5)
-    elif (draw_symbol_verification(is_ai, ai_quadrant, quadrant, constants.FOURTH_QUADRANT)):
+    elif (game_helper.quadrant_verification(is_ai, ai_quadrant, quadrant, constants.FOURTH_QUADRANT)):
         pygame.draw.circle(display_surface, board_lines_color, (76, 260), 50, 5)
-    elif (draw_symbol_verification(is_ai, ai_quadrant, quadrant, constants.FIFTH_QUADRANT)):
+    elif (game_helper.quadrant_verification(is_ai, ai_quadrant, quadrant, constants.FIFTH_QUADRANT)):
         pygame.draw.circle(display_surface, board_lines_color, (250, 260), 50, 5)
-    elif (draw_symbol_verification(is_ai, ai_quadrant, quadrant, constants.SIXTH_QUADRANT)):
+    elif (game_helper.quadrant_verification(is_ai, ai_quadrant, quadrant, constants.SIXTH_QUADRANT)):
         pygame.draw.circle(display_surface, board_lines_color, (420, 260), 50, 5)
-    elif (draw_symbol_verification(is_ai, ai_quadrant, quadrant, constants.SEVENTH_QUADRANT)):
+    elif (game_helper.quadrant_verification(is_ai, ai_quadrant, quadrant, constants.SEVENTH_QUADRANT)):
         pygame.draw.circle(display_surface, board_lines_color, (76, 430), 50, 5)
-    elif (draw_symbol_verification(is_ai, ai_quadrant, quadrant, constants.EIGHTH_QUADRANT)):
+    elif (game_helper.quadrant_verification(is_ai, ai_quadrant, quadrant, constants.EIGHTH_QUADRANT)):
         pygame.draw.circle(display_surface, board_lines_color, (250, 430), 50, 5)
     else:
         pygame.draw.circle(display_surface, board_lines_color, (420, 430), 50, 5)

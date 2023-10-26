@@ -1,4 +1,5 @@
 import numpy
+import board_helper
 import constants
 
 board_matrix = numpy.array(
@@ -10,26 +11,26 @@ board_matrix = numpy.array(
 )
 
 def fill_board_matrix(drawed_symbols, is_ai, ai_quadrant, quadrant):
-    if (fill_board_matrix_verification(is_ai, ai_quadrant, quadrant, constants.FIRST_QUADRANT)):
+    if (quadrant_verification(is_ai, ai_quadrant, quadrant, constants.FIRST_QUADRANT)):
         board_matrix[0][0] = drawed_symbols[-1]
-    elif (fill_board_matrix_verification(is_ai, ai_quadrant, quadrant, constants.SECOND_QUADRANT)):
+    elif (quadrant_verification(is_ai, ai_quadrant, quadrant, constants.SECOND_QUADRANT)):
         board_matrix[0][1] = drawed_symbols[-1]
-    elif (fill_board_matrix_verification(is_ai, ai_quadrant, quadrant, constants.THIRD_QUADRANT)):
+    elif (quadrant_verification(is_ai, ai_quadrant, quadrant, constants.THIRD_QUADRANT)):
         board_matrix[0][2] = drawed_symbols[-1]
-    elif (fill_board_matrix_verification(is_ai, ai_quadrant, quadrant, constants.FOURTH_QUADRANT)):
+    elif (quadrant_verification(is_ai, ai_quadrant, quadrant, constants.FOURTH_QUADRANT)):
         board_matrix[1][0] = drawed_symbols[-1]
-    elif (fill_board_matrix_verification(is_ai, ai_quadrant, quadrant, constants.FIFTH_QUADRANT)):
+    elif (quadrant_verification(is_ai, ai_quadrant, quadrant, constants.FIFTH_QUADRANT)):
         board_matrix[1][1] = drawed_symbols[-1]
-    elif (fill_board_matrix_verification(is_ai, ai_quadrant, quadrant, constants.SIXTH_QUADRANT)):
+    elif (quadrant_verification(is_ai, ai_quadrant, quadrant, constants.SIXTH_QUADRANT)):
         board_matrix[1][2] = drawed_symbols[-1]
-    elif (fill_board_matrix_verification(is_ai, ai_quadrant, quadrant, constants.SEVENTH_QUADRANT)):
+    elif (quadrant_verification(is_ai, ai_quadrant, quadrant, constants.SEVENTH_QUADRANT)):
         board_matrix[2][0] = drawed_symbols[-1]
-    elif (fill_board_matrix_verification(is_ai, ai_quadrant, quadrant, constants.EIGHTH_QUADRANT)):
+    elif (quadrant_verification(is_ai, ai_quadrant, quadrant, constants.EIGHTH_QUADRANT)):
         board_matrix[2][1] = drawed_symbols[-1]
     else:
         board_matrix[2][2] = drawed_symbols[-1]
 
-def fill_board_matrix_verification(is_ai, ai_quadrant, quadrant, generic_quadrant) -> bool:
+def quadrant_verification(is_ai, ai_quadrant, quadrant, generic_quadrant) -> bool:
     return (not is_ai and quadrant[0] == generic_quadrant) or (is_ai == True and ai_quadrant == generic_quadrant)
 
 def search_for_winner(game_state_handler, grid_quadrants, drawed_symbols):
