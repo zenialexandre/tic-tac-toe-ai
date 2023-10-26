@@ -6,7 +6,7 @@ import board_helper
 import constants
 
 def handle_ai_action(pygame, display_surface, game_state_handler, generic_player_handler, grid_quadrants, board_lines_color):
-    board_matrix_clone = copy.copy(game_helper.board_matrix)
+    board_matrix_clone = copy.deepcopy(game_helper.board_matrix)
     symbol = constants.CURRENT_SYMBOL if (len(board_helper.drawed_symbols) == 0) else board_helper.drawed_symbols[-1]
     best_score = -math.inf
     best_possible_move = { 'row_position': 0, 'column_position': 0 }
@@ -17,7 +17,6 @@ def handle_ai_action(pygame, display_surface, game_state_handler, generic_player
                 board_matrix_clone[i][j] = symbol
                 is_max = True if generic_player_handler[constants.MAX_PLAYER] == constants.AI else False
                 score = minimax_decision(generic_player_handler, board_matrix_clone, is_max, symbol)
-                game_helper.board_matrix[i][j] = '-'
 
                 if (score > best_score):
                     best_score = score
@@ -35,33 +34,31 @@ def execute_ai_actions(pygame, display_surface, game_state_handler, generic_play
 
 def minimax_decision(generic_player_handler, board_matrix_clone, is_max, symbol) -> int:
     winner = check_winner(board_matrix_clone, symbol)
+    best_score_minimax = 0
 
     if (winner == True):
         return winner
 
     if (is_max == True):
-        best_score_max = -math.inf
+        best_score_minimax = -math.inf
 
         for i in range(3):
             for j in range(3):
                 if (board_matrix_clone[i][j] == '-'):
-                    board_matrix_clone[i][j] = generic_player_handler[constants.CURRENT_SYMBOL]
-                    best_score_max = max(minimax_decision(generic_player_handler, board_matrix_clone, False, constants.CURRENT_SYMBOL), best_score_max)
+                    board_matrix_clone[i][j] = symbol
+                    best_score_minimax = max(best_score_minimax, minimax_decision(generic_player_handler, board_matrix_clone, False, symbol))
                     board_matrix_clone[i][j] = '-'
-
-        return best_score_max
     else:
-        best_score_min = math.inf
-        symbol_min = constants.O_SYMBOL if (generic_player_handler[constants.CURRENT_SYMBOL] == constants.X_SYMBOL) else constants.X_SYMBOL
+        best_score_minimax = math.inf
 
         for i in range(3):
             for j in range(3):
                 if (board_matrix_clone[i][j] == '-'):
-                    board_matrix_clone[i][j] = symbol_min
-                    best_score_min = min(minimax_decision(generic_player_handler, board_matrix_clone, True, symbol_min), best_score_min)
+                    board_matrix_clone[i][j] = symbol
+                    best_score_minimax = min(best_score_minimax, minimax_decision(generic_player_handler, board_matrix_clone, True, symbol))
                     board_matrix_clone[i][j] = '-'
 
-        return best_score_min
+    return best_score_minimax
 
 def get_ai_quadrant(best_possible_move) -> str:
     quadrant = constants.FIRST_QUADRANT

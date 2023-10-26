@@ -83,9 +83,17 @@ def handle_game_events(pygame, game_state_handler, generic_player_handler, displ
         if (event.type == pygame.MOUSEBUTTONDOWN and generic_player_handler[constants.MOMENT_PLAYER] == constants.PLAYER):
             board_helper.handle_player_action(pygame, display_surface, game_state_handler, generic_player_handler, grid_quadrants, board_lines_color)
             generic_player_handler[constants.MOMENT_PLAYER] = constants.AI
+
+            if (game_state_handler[constants.ENDED][constants.STATE] == True):
+                generic_player_handler[constants.MOMENT_PLAYER] = constants.PLAYER
+                generic_player_handler[constants.MAX_PLAYER] = constants.PLAYER
         elif (generic_player_handler[constants.MOMENT_PLAYER] == constants.AI):
             ai.handle_ai_action(pygame, display_surface, game_state_handler, generic_player_handler, grid_quadrants, board_lines_color)
             generic_player_handler[constants.MOMENT_PLAYER] = constants.PLAYER
+
+            if (game_state_handler[constants.ENDED][constants.STATE] == True):
+                generic_player_handler[constants.MOMENT_PLAYER] = constants.AI
+                generic_player_handler[constants.MAX_PLAYER] = constants.AI
 
 def handle_game_configuration_event(pygame, event, generic_player_handler):
     if (game_state_handler[constants.START_MENU][constants.STATE] == True):
