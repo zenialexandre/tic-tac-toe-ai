@@ -92,6 +92,9 @@ def handle_game_configuration_event(pygame, event, generic_player_handler):
         if (event.type == pygame.KEYDOWN and event.key == pygame.K_UP):
             generic_player_handler[constants.MOMENT_PLAYER] = constants.AI
             generic_player_handler[constants.MAX_PLAYER] = constants.AI
+        elif (event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN):
+            generic_player_handler[constants.MOMENT_PLAYER] = constants.PLAYER
+            generic_player_handler[constants.MAX_PLAYER] = constants.PLAYER
         elif (event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT):
             generic_player_handler[constants.CURRENT_SYMBOL] = constants.O_SYMBOL
         elif (event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT):
