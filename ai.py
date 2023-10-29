@@ -15,49 +15,33 @@ def handle_ai_action(pygame, display_surface, game_state_handler, generic_player
         symbol = board_helper.drawed_symbols[-1]
         symbol = 'x' if symbol == 'o' else 'o'
 
-    is_max = constants.AI if generic_player_handler[constants.MAX_PLAYER] == constants.AI else constants.PLAYER 
-    
-    blank_spaces = get_board_blank_spaces(board_matrix_clone)
+    if(len(board_helper.drawed_symbols) == 0):
+        rand_col = randint(0,2)
+        rand_row = randint(0,2)
+        move = {
+            constants.ROW_POSITION: rand_row, 
+            constants.COLUMN_POSITION: rand_col
+            }
+        
+        execute_ai_actions(pygame, display_surface, game_state_handler, generic_player_handler, grid_quadrants, move, board_lines_color)
+    else:
+        is_max = 'max' if generic_player_handler[constants.MAX_PLAYER] == constants.AI else 'min'
+        
+        blank_spaces = get_board_blank_spaces(board_matrix_clone)
 
-    print(symbol)
-    print(is_max)
-    print(blank_spaces)
+        heuristic, best_possible_move = minimax_decision(board_matrix_clone, blank_spaces, is_max, symbol, constants.AI)
 
-    heuristic, best_possible_move = minimax_decision(board_matrix_clone, blank_spaces, is_max, symbol, constants.AI)
+        execute_ai_actions(pygame, display_surface, game_state_handler, generic_player_handler, grid_quadrants, best_possible_move, board_lines_color)
 
-    print(heuristic)
-    print(best_possible_move)
-
-    if(best_possible_move[constants.ROW_POSITION] == -1):
-        min_col = math.inf
-        max_col = -math.inf
-        min_row = math.inf
-        max_row = -math.inf
-
-        for space in blank_spaces:
-            if(space['col'] < min_col):
-                min_col = space['col']
-            
-            if(space['row'] < min_row):
-                min_row = space['row']
-
-            if(space['col'] > max_col):
-                max_col = space['col']
-            
-            if(space['row'] > max_row):
-                max_row = space['row']
-
-        print(best_possible_move)
-        best_possible_move[constants.COLUMN_POSITION] = randint(min_col, max_col)
-        best_possible_move[constants.ROW_POSITION] = randint(min_row, max_row)
-
-    execute_ai_actions(pygame, display_surface, game_state_handler, generic_player_handler, grid_quadrants, best_possible_move, board_lines_color)
-
-def minimax_decision(board_matrix, blank_spaces, is_max, symbol, player) -> dict:
-    heuristic_value = None
+def minimax_decision(board_matrix, blank_spaces, node, symbol, player) -> dict:
     position = None
     blank_spaces_copy = copy.deepcopy(blank_spaces)
     board_matrix_copy = copy.deepcopy(board_matrix)
+
+    if(node == 'max'):
+        heuristic_value =-math.inf
+    else:
+        heuristic_value = math.inf
 
     for index, space in enumerate(blank_spaces_copy):
         if(space['symbol'] == '-'):
@@ -65,36 +49,28 @@ def minimax_decision(board_matrix, blank_spaces, is_max, symbol, player) -> dict
             board_matrix_copy[space['row']][space['col']] = symbol
 
             if(game_helper.check_winning_scenarios(board_matrix_copy, symbol)):
-                if(player == constants.PLAYER and is_max == constants.AI):
-                    return -1, {constants.ROW_POSITION: -1, constants.COLUMN_POSITION: -1}
-                elif(player == constants.PLAYER):
-                    return 1, {constants.ROW_POSITION: -1, constants.COLUMN_POSITION: -1}
-                elif(constants.AI == is_max):
-                    return 1, {constants.ROW_POSITION : space['row'], constants.COLUMN_POSITION: space['col']}
-                else:
+                if(player == constants.PLAYER):
                     return -1, {constants.ROW_POSITION: space['row'], constants.COLUMN_POSITION: space['col']}
+                else:
+                    return 1, {constants.ROW_POSITION : space['row'], constants.COLUMN_POSITION: space['col']}
 
             if(game_helper.check_terminal_state(board_matrix_copy)):
-                return 0, {constants.ROW_POSITION: -1, constants.COLUMN_POSITION: -1} 
+                return 0, {constants.ROW_POSITION: space['row'], constants.COLUMN_POSITION: space['col']} 
 
             heuristic_next_node, position_next_node = minimax_decision(board_matrix_copy, 
                                                                        blank_spaces_copy, 
-                                                                       is_max, 
+                                                                       'min' if node == 'max' else 'max', 
                                                                        'x' if symbol == 'o' else 'o', 
                                                                        constants.PLAYER if player == constants.AI else constants.AI)
 
-            if(heuristic_value == None):
-                heuristic_value = heuristic_next_node
-                position = position_next_node
+            if(node == 'max'):
+                if(heuristic_next_node > heuristic_value):
+                    heuristic_value = heuristic_next_node
+                    position = position_next_node
             else:
-                if(is_max == constants.AI):
-                    if(heuristic_next_node > heuristic_value):
-                        heuristic_value = heuristic_next_node
-                        position = position_next_node
-                else:
-                    if(heuristic_next_node < heuristic_value):
-                        heuristic_value = heuristic_next_node
-                        position = position_next_node
+                if(heuristic_next_node < heuristic_value):
+                    heuristic_value = heuristic_next_node
+                    position = position_next_node
 
             if(index != len(blank_spaces_copy)):
                 space['symbol'] = '-'
