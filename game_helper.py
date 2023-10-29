@@ -77,3 +77,11 @@ def clean_filled_quadrants(grid_quadrants):
     for quadrant in grid_quadrants.items():
         if (quadrant[1][constants.IS_FILLED] == True):
             quadrant[1][constants.IS_FILLED] = False
+
+def check_terminal_state(board_matrix):
+    for i in range(3):
+        for j in range(3):
+            if(board_matrix[i][j] == '-'):
+                return False
+            
+    return True
