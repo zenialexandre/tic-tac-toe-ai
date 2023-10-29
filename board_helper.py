@@ -13,17 +13,21 @@ def draw_board(pygame, display_surface, display_surface_width, display_surface_h
     pygame.draw.line(display_surface, board_lines_color, (0, display_surface_height / 3 * 2), (display_surface_width, display_surface_height / 3 * 2), 7)
 
 def handle_player_action(pygame, display_surface, game_state_handler, generic_player_handler, grid_quadrants, board_lines_color):
-    mouse_position = mouse_listener(pygame)
+    mouse_position = 0
+    jogada_completa = False
 
-    if (mouse_position != 0):
-        for quadrant in grid_quadrants.items():
-            if ((mouse_position[0] >= quadrant[1][constants.POSITION][0] and mouse_position[0] <= quadrant[1][constants.POSITION][2]) \
-                and (mouse_position[1] >= quadrant[1][constants.POSITION][1] and mouse_position[1] <= quadrant[1][constants.POSITION][3]) \
-                and (quadrant[1][constants.IS_FILLED] == False)):
-                    quadrant[1][constants.IS_FILLED] = True
-                    draw_symbol(pygame, display_surface, generic_player_handler, False, None, quadrant, board_lines_color)
-                    game_helper.fill_board_matrix(drawed_symbols, False, None, quadrant)
-                    game_helper.search_for_winner(game_state_handler, grid_quadrants, drawed_symbols)
+    while mouse_position == 0:
+        mouse_position = mouse_listener(pygame)
+        if (mouse_position != 0):
+            for quadrant in grid_quadrants.items():
+                if ((mouse_position[0] >= quadrant[1][constants.POSITION][0] and mouse_position[0] <= quadrant[1][constants.POSITION][2]) \
+                    and (mouse_position[1] >= quadrant[1][constants.POSITION][1] and mouse_position[1] <= quadrant[1][constants.POSITION][3]) \
+                    and (quadrant[1][constants.IS_FILLED] == False)):
+                        quadrant[1][constants.IS_FILLED] = True
+                        draw_symbol(pygame, display_surface, generic_player_handler, False, None, quadrant, board_lines_color)
+                        game_helper.fill_board_matrix(drawed_symbols, False, None, quadrant)
+                        game_helper.search_for_winner(game_state_handler, grid_quadrants, drawed_symbols)
+
 
 def mouse_listener(pygame) -> int:
     return pygame.mouse.get_pos() if (pygame.mouse.get_pressed()[0] == True) else 0

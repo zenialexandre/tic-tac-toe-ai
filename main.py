@@ -24,7 +24,8 @@ game_state_handler = {
     },
     'ended': {
         'state': False
-    }
+    },
+    'win_or_tie': 'tie'
 }
 
 generic_player_handler = {
@@ -78,7 +79,7 @@ def handle_game_events(pygame, game_state_handler, generic_player_handler, displ
         quit()
     elif (game_state_handler[constants.START_MENU][constants.STATE] == True or game_state_handler[constants.ENDED][constants.STATE] == True):
         handle_game_configuration_event(pygame, event, generic_player_handler)
-        default_play_process(pygame, event, game_state_handler, display_surface, display_surface_width, display_surface_height, board_lines_color)
+        default_play_process(pygame, event, game_state_handler, display_surface, display_surface_width, display_surface_height, board_lines_color, generic_player_handler)
     elif (game_state_handler[constants.RUNNING][constants.STATE] == True):
         if (event.type == pygame.MOUSEBUTTONDOWN and generic_player_handler[constants.MOMENT_PLAYER] == constants.PLAYER):
             board_helper.handle_player_action(pygame, display_surface, game_state_handler, generic_player_handler, grid_quadrants, board_lines_color)
@@ -108,15 +109,15 @@ def handle_game_configuration_event(pygame, event, generic_player_handler):
         elif (event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT):
             generic_player_handler[constants.CURRENT_SYMBOL] = constants.X_SYMBOL
 
-def default_play_process(pygame, event, game_state_handler, display_surface, display_surface_width, display_surface_height, board_lines_color):
-    menu_helper.handle_drawing(pygame, game_state_handler, display_surface, display_surface_width, display_surface_height, board_lines_color)
+def default_play_process(pygame, event, game_state_handler, display_surface, display_surface_width, display_surface_height, board_lines_color, generic_player_handler):
+    menu_helper.handle_drawing(pygame, game_state_handler, display_surface, display_surface_width, display_surface_height, board_lines_color, generic_player_handler)
     if (event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE):
         if (game_state_handler[constants.START_MENU][constants.STATE] == True):
             game_helper.modify_game_state(game_state_handler, False, True, False)
         else:
             game_helper.modify_game_state(game_state_handler, True, False, False)
 
-        menu_helper.handle_drawing(pygame, game_state_handler, display_surface, display_surface_width, display_surface_height, board_lines_color)
+        menu_helper.handle_drawing(pygame, game_state_handler, display_surface, display_surface_width, display_surface_height, board_lines_color, generic_player_handler)
 
 while True:
     for event in pygame.event.get():
