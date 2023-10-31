@@ -22,7 +22,7 @@ def draw_end_game_menu(pygame, display_surface, board_lines_color, game_state_ha
     display_surface.blit(pygame.font.SysFont('comicsans', 35).render('Game ended!', 1, board_lines_color), (150, 180))
     display_surface.blit(pygame.font.SysFont('comicsans', 20).render('Press space to replay.', 1, board_lines_color), (150, 240))
 
-    if (game_state_handler['win_or_tie'] == 'win'):
+    if (game_state_handler[constants.ENDED][constants.END_RESULT] == constants.WIN):
         if (generic_player_handler[constants.MOMENT_PLAYER] == constants.AI):
             display_surface.blit(pygame.font.SysFont('comicsans', 20).render('AI is the winner!', 1, board_lines_color), (150, 280))
         else:

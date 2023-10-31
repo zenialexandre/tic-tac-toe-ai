@@ -16,60 +16,60 @@ display_surface.fill(pygame.Color('white'))
 display_surface_width, display_surface_height = display_surface.get_size()
 
 game_state_handler = {
-    'start_menu': {
-        'state': True
+    constants.START_MENU: {
+        constants.STATE: True
     },
-    'running': {
-        'state': False
+    constants.RUNNING: {
+        constants.STATE: False
     },
-    'ended': {
-        'state': False
+    constants.ENDED: {
+        constants.STATE: False,
+        constants.END_RESULT: constants.TIE
     },
-    'win_or_tie': 'tie'
 }
 
 generic_player_handler = {
-    'moment_player': constants.PLAYER,
-    'max_player': constants.PLAYER,
-    'current_symbol': constants.X_SYMBOL
+    constants.MOMENT_PLAYER: constants.PLAYER,
+    constants.MAX_PLAYER: constants.PLAYER,
+    constants.CURRENT_SYMBOL: constants.X_SYMBOL
 }
 
 grid_quadrants = {
-    'first_quadrant': {
-        'position': [0, 0, 150, 150],
-        'is_filled': False
+    constants.FIRST_QUADRANT: {
+        constants.POSITION: [0, 0, 150, 150],
+        constants.IS_FILLED: False
     },
-    'second_quadrant': {
-        'position': [180, 0, 330, 150],
-        'is_filled': False
+    constants.SECOND_QUADRANT: {
+        constants.POSITION: [180, 0, 330, 150],
+        constants.IS_FILLED: False
     },
-    'third_quadrant': {
-        'position': [360, 0, 512, 150],
-        'is_filled': False
+    constants.THIRD_QUADRANT: {
+        constants.POSITION: [360, 0, 512, 150],
+        constants.IS_FILLED: False
     },
-    'fourth_quadrant': {
-        'position': [0, 180, 150, 330],
-        'is_filled': False
+    constants.FOURTH_QUADRANT: {
+        constants.POSITION: [0, 180, 150, 330],
+        constants.IS_FILLED: False
     },
-    'fifth_quadrant': {
-        'position': [180, 180, 330, 330],
-        'is_filled': False
+    constants.FIFTH_QUADRANT: {
+        constants.POSITION: [180, 180, 330, 330],
+        constants.IS_FILLED: False
     },
-    'sixth_quadrant': {
-        'position': [360, 180, 512, 330],
-        'is_filled': False
+    constants.SIXTH_QUADRANT: {
+        constants.POSITION: [360, 180, 512, 330],
+        constants.IS_FILLED: False
     },
-    'seventh_quadrant': {
-        'position': [0, 360, 150, 512],
-        'is_filled': False
+    constants.SEVENTH_QUADRANT: {
+        constants.POSITION: [0, 360, 150, 512],
+        constants.IS_FILLED: False
     },
-    'eighth_quadrant': {
-        'position': [180, 360, 330, 512],
-        'is_filled': False
+    constants.EIGHTH_QUADRANT: {
+        constants.POSITION: [180, 360, 330, 512],
+        constants.IS_FILLED: False
     },
-    'ninth_quadrant': {
-        'position': [360, 360, 512, 512],
-        'is_filled': False
+    constants.NINTH_QUADRANT: {
+        constants.POSITION: [360, 360, 512, 512],
+        constants.IS_FILLED: False
     },
 }
 
