@@ -1,5 +1,4 @@
 import numpy
-import board_helper
 import constants
 
 board_matrix = numpy.array(

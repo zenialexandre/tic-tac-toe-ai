@@ -14,10 +14,10 @@ def draw_board(pygame, display_surface, display_surface_width, display_surface_h
 
 def handle_player_action(pygame, display_surface, game_state_handler, generic_player_handler, grid_quadrants, board_lines_color):
     mouse_position = 0
-    jogada_completa = False
 
-    while mouse_position == 0:
+    while (mouse_position == 0):
         mouse_position = mouse_listener(pygame)
+
         if (mouse_position != 0):
             for quadrant in grid_quadrants.items():
                 if ((mouse_position[0] >= quadrant[1][constants.POSITION][0] and mouse_position[0] <= quadrant[1][constants.POSITION][2]) \
