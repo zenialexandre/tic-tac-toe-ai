@@ -13,10 +13,9 @@ def handle_ai_action(pygame, display_surface, game_state_handler, generic_player
     else:
         symbol = board_helper.drawed_symbols[-1]
         symbol = constants.X_SYMBOL if symbol == constants.O_SYMBOL else constants.O_SYMBOL
-
     if (len(board_helper.drawed_symbols) == 0):
-        rand_col = randint(0,2)
-        rand_row = randint(0,2)
+        rand_col = randint(0, 2)
+        rand_row = randint(0, 2)
         move = {
             constants.ROW_POSITION: rand_row, 
             constants.COLUMN_POSITION: rand_col

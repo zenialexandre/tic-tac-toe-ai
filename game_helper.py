@@ -1,5 +1,4 @@
 import numpy
-import board_helper
 import constants
 
 board_matrix = numpy.array(
@@ -35,6 +34,7 @@ def quadrant_verification(is_ai, ai_quadrant, quadrant, generic_quadrant) -> boo
 
 def search_for_winner(game_state_handler, grid_quadrants, drawed_symbols):
     if (check_winning_scenarios(None, constants.X_SYMBOL) == True or check_winning_scenarios(None, constants.O_SYMBOL) == True):
+        game_state_handler['win_or_tie'] = 'win'
         end_game_state_transition(game_state_handler, grid_quadrants, drawed_symbols)
     elif (numpy.count_nonzero(board_matrix == '-') == 0):
         end_game_state_transition(game_state_handler, grid_quadrants, drawed_symbols)
